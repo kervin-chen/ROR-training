@@ -2,6 +2,230 @@
 
 A fast, practical mapping from JS/Node idioms to Ruby/Rails syntax and conventions.
 
+## Setup: Installing Ruby & Rails
+
+### Install Ruby using RVM (Ruby Version Manager)
+
+RVM allows you to install and manage multiple Ruby versions on your system.
+
+```bash
+# Step 1: Import GPG keys (required for signature verification)
+gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+
+# Alternative if the above fails:
+# curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+# curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
+
+# Step 2: Install RVM
+curl -sSL https://get.rvm.io | bash -s stable
+
+# Step 3: Load RVM into your shell
+source ~/.rvm/scripts/rvm
+
+# Install Ruby 3.x (latest stable version)
+rvm install 3.3.0
+
+# Use Ruby 3.3.0 as default
+rvm use 3.3.0 --default
+
+# Verify installation
+ruby -v
+# => ruby 3.3.0 (or similar)
+
+# Check RVM is working
+rvm list
+```
+
+### Install Rails 7
+
+```bash
+# Install Rails 7
+gem install rails -v 7.0.8
+
+# Verify installation
+rails -v
+# => Rails 7.0.8 (or similar)
+```
+
+### Using irb (Interactive Ruby)
+
+irb is Ruby's REPL (Read-Eval-Print Loop), similar to Node.js REPL.
+
+```bash
+# Start irb
+irb
+
+# Inside irb
+> puts "Hello, Ruby!"
+Hello, Ruby!
+=> nil
+
+> 2 + 3
+=> 5
+
+> [1, 2, 3].map { |n| n * 2 }
+=> [2, 4, 6]
+
+# Exit irb
+> exit
+# or press Ctrl+D
+```
+
+**Useful irb tips:**
+```ruby
+# Load a file in irb
+load 'my_script.rb'
+
+# Check object class
+"hello".class  # => String
+42.class       # => Integer
+
+# Get all methods available on an object
+"hello".methods
+[1, 2, 3].methods
+
+# Get help on a method
+help String#upcase  # (may need to install ri documentation)
+```
+
+### Ruby Basics (Quick Reference)
+
+#### Data Types
+```ruby
+# Numbers
+integer = 42
+float = 3.14
+big_num = 1_000_000  # underscores for readability
+
+# Strings
+single = 'No interpolation'
+double = "Interpolation: #{2 + 2}"  # => "Interpolation: 4"
+multiline = <<~TEXT
+  This is a
+  multiline string
+TEXT
+
+# Symbols (immutable strings, often used as keys)
+status = :active
+role = :admin
+
+# Booleans
+is_valid = true
+is_empty = false
+
+# Nil (similar to JS null)
+value = nil
+
+# Arrays
+numbers = [1, 2, 3, 4, 5]
+mixed = [1, "two", :three, nil]
+
+# Hashes (similar to JS objects)
+user = { name: "John", age: 30 }
+# or with => syntax
+user = { "name" => "John", "age" => 30 }
+
+# Ranges
+range = (1..10)   # inclusive 1 to 10
+range = (1...10)  # exclusive, 1 to 9
+```
+
+#### Common Operations
+```ruby
+# String operations
+"hello".upcase              # => "HELLO"
+"HELLO".downcase            # => "hello"
+"  trim  ".strip            # => "trim"
+"hello".length              # => 5
+"hello" * 3                 # => "hellohellohello"
+"hello world".split(" ")    # => ["hello", "world"]
+
+# Array operations
+arr = [1, 2, 3, 4, 5]
+arr.length                  # => 5
+arr.first                   # => 1
+arr.last                    # => 5
+arr.push(6)                 # => [1, 2, 3, 4, 5, 6]
+arr << 7                    # => [1, 2, 3, 4, 5, 6, 7]
+arr.pop                     # => 7
+arr.include?(3)             # => true
+arr.reverse                 # => [6, 5, 4, 3, 2, 1]
+
+# Hash operations
+user = { name: "John", age: 30 }
+user[:name]                 # => "John"
+user[:email] = "john@example.com"
+user.keys                   # => [:name, :age, :email]
+user.values                 # => ["John", 30, "john@example.com"]
+user.has_key?(:name)        # => true
+```
+
+#### Control Flow
+```ruby
+# If/elsif/else
+if age >= 18
+  puts "Adult"
+elsif age >= 13
+  puts "Teenager"
+else
+  puts "Child"
+end
+
+# Unless (negated if)
+unless logged_in?
+  redirect_to login_path
+end
+
+# Ternary operator
+status = age >= 18 ? "adult" : "minor"
+
+# Case/when
+case day
+when "Monday"
+  puts "Start of week"
+when "Friday"
+  puts "TGIF!"
+when "Saturday", "Sunday"
+  puts "Weekend!"
+else
+  puts "Midweek"
+end
+```
+
+#### Loops & Iteration
+```ruby
+# Each (most common)
+[1, 2, 3].each do |num|
+  puts num
+end
+
+# Times
+5.times { |i| puts i }  # prints 0 to 4
+
+# While
+i = 0
+while i < 5
+  puts i
+  i += 1
+end
+
+# For (less common in Ruby)
+for i in 1..5
+  puts i
+end
+
+# Map (transform)
+doubled = [1, 2, 3].map { |n| n * 2 }  # => [2, 4, 6]
+
+# Select (filter)
+evens = [1, 2, 3, 4].select { |n| n.even? }  # => [2, 4]
+
+# Reduce
+sum = [1, 2, 3, 4].reduce(0) { |acc, n| acc + n }  # => 10
+```
+
+---
+
 ## Basics
 - Semicolons: JS often uses `;` (ASI optional); Ruby omits `;`.
 - Parentheses: JS needed in calls/ifs; Ruby can omit (`print "hi"`, `if cond`).
