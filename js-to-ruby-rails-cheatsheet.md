@@ -525,6 +525,12 @@ end
 - Tests: built-in Minitest (`bin/rails test`) or RSpec (`bin/rspec`).
 - Dependencies: Bundler manages gems via `Gemfile` (`bundle install`).
 
+## Sandbox
+
+Run `rails console --sandbox` to open an IRB session loaded with the project code.
+
+Any changes made in this IRB session will not persist once session closed
+
 ---
 
 Tip: Think in “convention over configuration.” Let Rails naming and folder structure do the wiring (autoloading, routes, MVC). Prefer scopes, validations, and callbacks for expressive domain logic, and use background jobs for non-request-critical work.
